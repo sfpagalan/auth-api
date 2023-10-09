@@ -17,36 +17,40 @@ afterAll(async () => {
 describe('Testing the REST /food Router', () => {
   // Test CREATE
   test('Should CREATE food (/food)', async () => {
-    let response = await request.post('/food').send({
+    const foodData = {
       name: 'Banana',
       type: 'fruit',
-    });
+    };
 
-    expect(response.status).toEqual(200);
-    expect(response.body.name).toEqual('Banana');
+    const response = await request.post('/food').send(foodData);
+
+    expect(response.status).toEqual(201); // Change to 201 for successful creation
+    expect(response.body.name).toEqual(foodData.name);
   });
 
   // Test READ
   test('Should READ food (/food)', async () => {
-    let response = await request.get('/food');
+    const response = await request.get('/food');
 
     expect(response.status).toEqual(200);
-    expect(response.body).toBeTruthy();
+    expect(response.body.length).toBeGreaterThan(0); // Ensure there's at least one food item
   });
 
   // Test UPDATE
   test('Should UPDATE food (/food/1)', async () => {
-    let response = await request.patch('/food/1').send({
+    const foodUpdateData = {
       name: 'Apple',
-    });
+    };
 
-    expect(response.status).toEqual(404);
-    expect(response.body.name).toEqual('Apple');
+    const response = await request.patch('/food/1').send(foodUpdateData);
+
+    expect(response.status).toEqual(200); // Change to 200 for successful update
+    expect(response.body.name).toEqual(foodUpdateData.name);
   });
 
-  // Test Delete
+  // Test DELETE
   test('Should DELETE food (/food/1)', async () => {
-    let response = await request.delete('/food/1');
+    const response = await request.delete('/food/1');
 
     expect(response.status).toEqual(204);
   });
@@ -56,37 +60,41 @@ describe('Testing the REST /food Router', () => {
 describe('Testing the REST /clothes Router', () => {
   // Test CREATE
   test('Should CREATE clothes (/clothes)', async () => {
-    let response = await request.post('/clothes').send({
+    const clothesData = {
       name: 'Shirt',
       type: 'short sleeve',
-    });
+    };
 
-    expect(response.status).toEqual(201);
-    expect(response.body.name).toEqual('Shirt');
+    const response = await request.post('/clothes').send(clothesData);
+
+    expect(response.status).toEqual(201); // Change to 201 for successful creation
+    expect(response.body.name).toEqual(clothesData.name);
   });
 
   // Test READ
   test('Should READ clothes (/clothes)', async () => {
-    let response = await request.get('/clothes');
+    const response = await request.get('/clothes');
 
     expect(response.status).toEqual(200);
-    expect(response.body).toBeTruthy();
+    expect(response.body.length).toBeGreaterThan(0); // Ensure there's at least one clothing item
   });
 
   // Test UPDATE
   test('Should UPDATE clothes (/clothes/1)', async () => {
-    let response = await request.patch('/clothes/1').send({
+    const clothesUpdateData = {
       type: 'long sleeve',
-    });
+    };
 
-    expect(response.status).toEqual(404);
-    expect(response.body.type).toEqual('long sleeve');
+    const response = await request.patch('/clothes/1').send(clothesUpdateData);
+
+    expect(response.status).toEqual(200); // Change to 200 for successful update
+    expect(response.body.type).toEqual(clothesUpdateData.type);
   });
 
   // Test DELETE
   test('Should DELETE clothes (/clothes/1)', async () => {
-    let response = await request.delete('/clothes/1');
+    const response = await request.delete('/clothes/1');
 
-    expect(response.status).toEqual(404);
+    expect(response.status).toEqual(204);
   });
 });
